@@ -1,0 +1,22 @@
+# Cardfolio web compartible
+
+Versión estática de ScalperLV para navegador. Incluye el acceso a las ofertas de Cardmarket del Charizard de 30th Celebration Classic Collection.
+
+## Abrir
+
+La forma más fácil es publicar esta carpeta en un hosting estático con HTTPS, por ejemplo GitHub Pages o Netlify, y compartir la URL.
+
+Para probarla localmente con Python instalado:
+
+1. Descomprime el ZIP.
+2. Abre una terminal en esta carpeta.
+3. Ejecuta `python -m http.server 8000`.
+4. Abre `http://localhost:8000`.
+
+Requiere conexión a Internet para cargar el catálogo, cambio de moneda e histórico.
+
+## Datos y privacidad
+
+Cada persona tiene su colección guardada localmente en el navegador que use. Este paquete no sincroniza colecciones entre personas ni entre dispositivos. No incluye claves API ni datos personales.
+
+Los precios del catálogo son referencias agregadas; el botón «Ver ofertas ↗» abre la página de Cardmarket para consultar ofertas actuales.

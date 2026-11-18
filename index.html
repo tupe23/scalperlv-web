@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101522"><meta name="description" content="Controla compras, ventas y beneficios de tu colección Pokémon TCG.">
+  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Cardfolio">
+  <link rel="apple-touch-icon" href="icon.svg"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
+  <title>Cardfolio · Pokémon TCG</title>
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="brandmark">◉</span><div><b>cardfolio</b><small>POKÉMON TCG</small></div></div><nav class="main-nav"><button class="nav-button active" data-view="marketView">Mercado</button><button class="nav-button" data-view="collectionView">Mi colección</button><button class="nav-button" data-view="salesView">Ventas</button></nav><button id="addTop" class="button primary">＋ <span>Añadir</span></button></header>
+  <main>
+    <section id="marketView">
+      <section class="catalog-heading"><div><p class="eyebrow">MERCADO POKÉMON TCG</p><h1>Cartas y productos</h1><p class="sub">Explora precios, variantes y productos sellados.</p></div><button class="button outline" data-view="collectionView">Ver mi colección</button></section>
+      <div id="fxStatus" class="fx-status">Cargando cambio USD → EUR…</div>
+      <div class="market-key"><label>Clave API <input id="marketApiKey" type="password" autocomplete="off" placeholder="tcg_live_…"></label><button id="saveMarketKey" class="icon-btn">Guardar</button><small>Plan gratuito: 100 consultas/día · <a href="https://tcgapi.dev/quickstart/" target="_blank" rel="noreferrer">Obtener clave</a></small></div>
+      <form id="marketForm" class="market-search"><select id="setPicker" required><option value="">Elige colección</option></select><input id="marketQuery" minlength="2" placeholder="Buscar en la colección…" required><button class="button primary">Buscar</button><select id="marketType"><option value="">Cartas y sellado</option><option value="Cards">Cartas</option><option value="Sealed Products">Sellado</option></select><select id="marketOwned"><option value="all">Todo</option><option value="not-owned">No en mi colección</option><option value="owned">En mi colección</option></select><select id="marketSort"><option value="relevance">Relevancia</option><option value="price_desc">Precio: mayor</option><option value="price_asc">Precio: menor</option><option value="name">Nombre A–Z</option></select></form>
+      <div class="quick-searches"><span>Buscar rápido:</span><button data-query="Charizard">Charizard</button><button data-query="Pikachu">Pikachu</button><button data-query="ETB">ETB</button><button data-query="booster box">Booster box</button><button data-query="151">151</button></div>
+      <div id="marketMessage" class="market-message">Introduce una búsqueda o elige una categoría para consultar el catálogo.</div>
+      <section id="marketResults" class="market-results"></section>
+    </section>
+    <section id="salesView" hidden><section class="hero"><div><p class="eyebrow">HISTORIAL</p><h1>Ventas y<br><em>beneficios.</em></h1><p class="sub">Todas tus transacciones en un solo lugar.</p></div><div class="orb">€</div></section><section id="salesStats" class="stats"></section><section class="section-head"><div><p class="eyebrow">TRANSACCIONES</p><h2>Ventas registradas <span id="salesCount" class="count">0</span></h2></div></section><section id="salesTransactions" class="product-list"></section></section>
+    <section id="collectionView" hidden>
+      <section class="hero"><div><p class="eyebrow">TU CARTERA TCG</p><h1>Tu colección,<br><em>en números.</em></h1><p class="sub">Compras, ventas y evolución en un solo lugar.</p></div><div class="orb">✦</div></section>
+      <section class="stats" id="stats"></section>
+      <section class="section-head"><div><p class="eyebrow">SEGUIMIENTO</p><h2>Mis productos <span id="itemCount" class="count">0</span></h2></div><button id="addMain" class="button outline">＋ Añadir producto</button></section>
+      <section class="filters"><input id="search" placeholder="⌕  Buscar producto o colección…"><select id="typeFilter"><option value="">Todos los tipos</option><option>Carta</option><option>Sobre</option><option>Caja</option><option>ETB</option><option>Colección</option><option>Otro</option></select><select id="statusFilter"><option value="">Todos</option><option value="owned">En colección</option><option value="sold">Vendido</option></select></section>
+      <section id="productList" class="product-list"></section>
+      <section class="section-head breakdown-head"><div><p class="eyebrow">ANÁLISIS</p><h2>¿Dónde está el valor?</h2></div></section>
+      <section id="breakdown" class="breakdown"></section>
+      <footer>Precios orientativos de TCGplayer, convertidos a euros con el último cambio disponible.</footer>
+    </section>
+  </main>
+  <dialog id="productDialog"><form id="productForm" method="dialog"><div class="modal-head"><div><p class="eyebrow">NUEVO REGISTRO</p><h2>Añadir producto</h2></div><button type="button" id="closeDialog" class="close">×</button></div>
+    <div class="catalog-search"><label>Clave API de TCG API<input id="apiKey" type="password" autocomplete="off" placeholder="tcg_live_…"></label><button type="button" id="saveApiKey" class="icon-btn">Guardar clave</button><small>Se guarda solo en este dispositivo. Plan gratuito: 100 consultas/día. <a href="https://tcgapi.dev/quickstart/" target="_blank" rel="noreferrer">Cómo obtener la clave</a>.</small></div>
+    <div class="catalog-search"><label>Buscar carta o producto sellado<input id="catalogQuery" minlength="2" placeholder="Ej. Charizard ex, ETB 151…"></label><button type="button" id="catalogSearch" class="button outline">Buscar catálogo</button><div id="catalogResults" class="catalog-results"></div></div>
+    <label>Nombre<input name="name" required placeholder="Ej. Caja de entrenador élite"></label>
+    <div class="grid2"><label>Tipo<select name="type"><option>Carta</option><option>Sobre</option><option selected>Caja</option><option>ETB</option><option>Colección</option><option>Otro</option></select></label><label>Colección<input name="set" placeholder="Ej. 151"></label></div>
+    <div class="grid2"><label>Unidades<input name="qty" type="number" min="1" value="1" required></label><label>Idioma<select name="language"><option>Inglés</option><option>Español</option></select></label></div>
+    <label>Fecha de compra<input name="date" type="date" required></label>
+    <div class="grid2"><label>Precio de compra por unidad (€)<input name="cost" type="number" min="0" step="0.01" required placeholder="0,00"></label><label>Valor de mercado por unidad (USD)<input name="market" type="number" min="0" step="0.01" placeholder="Opcional"></label></div>
+    <label>Notas<input name="notes" placeholder="Tienda o estado…"></label><input type="hidden" name="catalogId"><input type="hidden" name="subtype"><input type="hidden" name="imageUrl"><input type="hidden" name="catalogUrl"><input type="hidden" name="priceDate">
+    <button class="button primary submit">Guardar producto</button></form></dialog>
+  <dialog id="sellDialog"><form id="sellForm" method="dialog"><div class="modal-head"><div><p class="eyebrow">REGISTRAR VENTA</p><h2>Producto vendido</h2></div><button type="button" id="closeSell" class="close">×</button></div><input type="hidden" name="id"><label>Unidades que vendes<input name="quantity" type="number" min="1" value="1" required></label><label>Precio por unidad (€)<input name="unitPrice" type="number" min="0" step="0.01" required></label><p id="sellTotal" class="sale-total">Total de venta: —</p><label>Fecha de venta<input name="date" type="date" required></label><button class="button primary submit">Guardar venta</button></form></dialog>
+  <dialog id="historyDialog"><div class="modal-head"><div><p class="eyebrow">PRECIOS TCGPLAYER</p><h2 id="historyTitle">Histórico</h2></div><button type="button" id="closeHistory" class="close">×</button></div><div id="historyPeriods" class="history-periods"></div><div id="historySummary" class="history-summary">Cargando precios diarios…</div><div id="historyChart" class="history-chart"></div><small class="history-source">Precios diarios: <a href="https://tickermint.cards/developers" target="_blank" rel="noreferrer">TickerMint</a></small></dialog>
+  <script src="app.js?v=11"></script><script src="iphone.js?v=7"></script>
+</body></html>
